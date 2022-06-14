@@ -1,10 +1,24 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 
+from .models import Women
+
 # Create your views here.
 
+menu = ['О сайте', 'Добавить статью', 'Обратная связь', 'Войти']
+
+
 def index(request): #HttpRequest
-    return HttpResponse('Страница приложения women.')
+    # return HttpResponse('Страница приложения women.')
+
+    posts = Women.objects.all()
+
+    return render(request, 'women/index.html', {'menu': menu, 'title': 'Главная страница',
+                    'posts': posts}) # используем функцию render, чтобы загрузить шаблон
+
+
+def about(request):
+    return render(request, 'women/about.html', {'menu': menu, 'title': 'О сайте'})
 
 
 # Вторым аргументом в функцию передаем параметр catid, который отвечает за переход по категориям
