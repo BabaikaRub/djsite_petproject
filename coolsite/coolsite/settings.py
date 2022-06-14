@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,7 +26,7 @@ SECRET_KEY = 'django-insecure-ugklas0mio_-6cg%36yxw1sb@8r2mchq+x-*wea=5ek4230ap(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Когда значение True, мы видим расширенный список ошибок для простоты исправления багов
-DEBUG = False
+DEBUG = True
 
 # Прописываем сюда ip локального хоста пока ведем разработку
 ALLOWED_HOSTS = ['127.0.0.1']
@@ -120,9 +122,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' # префикс, который будет добавляться к URL статических файлов
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # указывает путь к общей папке статик, в которую будут собираться файлы на
+# реальном web-сервере
+
+STATICFILES_DIRS = [] # коллекция для нестандартных путей статичных файлов, если такие будут
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Добавление констант для успешной работы модели с полем Image
+# Еще на продакшене надо сделать симуляцию работы реального сервера, поэтому надо добавить специальные настройки в urls проекта
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # константа BASE_DIR определяет рабочую папку проекта
+MEDIA_URL = '/media/' # данная константа добавляет в URL графических файлов префикс /media/
+
+

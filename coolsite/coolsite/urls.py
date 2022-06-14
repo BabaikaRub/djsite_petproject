@@ -13,8 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from cgitb import handler
+from django.conf.urls.static import static
 from django.contrib import admin
+from cgitb import handler
+
+from coolsite import settings
 from django.urls import path, include # Функция include позволяет импрортировать url-адреса прямо из приложения,
 # чтобы они были независимыми друг от друга
 
@@ -24,6 +27,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('women.urls')), # Прописываем url-адрес для каждой функции
 ]
+
+# Добавляем специальные настройки для подгрузки статических файлов на момент продакшена. Указываем URL подгрузки
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 # Обработчик исключений для страницы 404 при выключенном DEBUG
 handler404 = pageNotFound
